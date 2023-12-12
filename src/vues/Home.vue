@@ -37,14 +37,6 @@
 </script>
 
 <template>
-  <header>
-    <div>
-      <img src="@/components/icons/logo.svg" alt="Logo">
-    </div>
-    <input type="text" v-model="searchQuery" placeholder="Search news">
-    <button @click="searchNews">Search</button>
-  </header>
-
   <main>
     <h1>Main news</h1>
 
