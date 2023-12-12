@@ -43,6 +43,14 @@
 </template>
 
 <style scoped>
+    h1 {
+        font-size: 2em;
+        margin: 0;
+        text-align: center;
+        color: #ffffff;
+        padding-top: 3%;
+    }
+
     .form-control {
         display: flex;
         flex-direction: column;

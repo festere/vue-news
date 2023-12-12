@@ -22,6 +22,7 @@
   const redirectToArticle = (article) => {
     window.location.href = article.url;
   };
+
 </script>
 
 <template>
@@ -30,14 +31,13 @@
       <h1>Main news</h1>
 
       <ul class="cards">
-        <li class="cards_item">
+        <li v-for="(article, index) in articlesEverything" :key="index" class="cards_item">
 
-          <div v-for="(article, index) in articlesEverything" :key="index" class="card">
+          <div class="card">
             <img :src="article.urlToImage ?? 'https://picsum.photos/500/300?random=' + index" alt="Image" class="card_image">
               <div class="card_content">
                 <h2 class="card_title">{{ article.title }}</h2>
                 <br>
-                <h3 class="card_title">{{ article.source.name }}</h3>
                 <h3 class="card_title">{{ article.author }}</h3>
 
                 <p class="card_text">{{ article.description }}</p>
