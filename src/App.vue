@@ -6,8 +6,6 @@
     <div>
       <img src="@/components/icons/logo.svg" alt="Logo">
     </div>
-    <input type="text" v-model="searchQuery" placeholder="Search news">
-    <button @click="searchNews">Search</button>
 
     <nav class="navbar">
       <div class="navbar-brand">
@@ -16,14 +14,17 @@
       </div>
       <div id="navMenu" class="navbar-menu">
         <div class="navbar-start">
-          <router-link to="/" class="navbar-item">Home</router-link>
-          <router-link to="/dailynews" class="navbar-item">Daily news</router-link>
+          <router-link to="/" class="navbar-item">Main news</router-link>
+          <router-link to="/yournews" class="navbar-item">Your news</router-link>
           <router-link to="/about" class="navbar-item">About</router-link>
+          <router-link to="/contact" class="navbar-item">Contact</router-link>
         </div>
       </div>
     </nav>
   </header>
+
   <router-view></router-view>
+  
 </template>
 
 <style scoped>

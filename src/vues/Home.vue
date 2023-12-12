@@ -1,35 +1,23 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
+  import { TrinityRingsSpinner } from 'epic-spinners';
   
   const APIEverything = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=';
-  const APIResearchBeg = 'https://newsapi.org/v2/everything?q=';
-  const APIResearchEnd = '&sortBy=popularity&apiKey=';
   const API_key = 'c2d38b53bd6c452c8b77eb90baadf05e';
 
-  const articlesEverything = ref([]);
-  const articlesResearch = ref([]);
-  const searchQuery = ref('');
+  const articlesEverything = ref(null);
 
   onMounted(async () => {
     try {
       const responseEverything = await axios.get(APIEverything + API_key);
-      articlesEverything.value = responseEverything.data.articles;
+      setTimeout(() => {
+        articlesEverything.value = responseEverything.data.articles;
+      }, 1000)
     } catch (error) {
       console.error(error);
     }
   });
-
-  const searchNews = async () => {
-    try {
-      const responseResearch = await axios.get(APIResearchBeg + searchQuery.value + APIResearchEnd + API_key);
-      articlesResearch.value = responseResearch.data.articles;
-      console.log(articlesResearch.value);
-
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const redirectToArticle = (article) => {
     window.location.href = article.url;
@@ -38,26 +26,31 @@
 
 <template>
   <main>
-    <h1>Main news</h1>
+    <div v-if="articlesEverything">
+      <h1>Main news</h1>
 
-    <ul class="cards">
-      <li class="cards_item">
+      <ul class="cards">
+        <li class="cards_item">
 
-        <div v-for="(article, index) in articlesEverything" :key="index" class="card">
-          <img :src="article.urlToImage ?? 'https://picsum.photos/500/300?random=' + index" alt="Image" class="card_image">
-            <div class="card_content">
-              <h2 class="card_title">{{ article.title }}</h2>
-              <br>
-              <h3 class="card_title">{{ article.source.name }}</h3>
-              <h3 class="card_title">{{ article.author }}</h3>
+          <div v-for="(article, index) in articlesEverything" :key="index" class="card">
+            <img :src="article.urlToImage ?? 'https://picsum.photos/500/300?random=' + index" alt="Image" class="card_image">
+              <div class="card_content">
+                <h2 class="card_title">{{ article.title }}</h2>
+                <br>
+                <h3 class="card_title">{{ article.source.name }}</h3>
+                <h3 class="card_title">{{ article.author }}</h3>
 
-              <p class="card_text">{{ article.description }}</p>
-              <button class="btn card_btn" @click="redirectToArticle(article)">Read More</button>
-            </div>
-        </div>
+                <p class="card_text">{{ article.description }}</p>
+                <button class="btn card_btn" @click="redirectToArticle(article)">Read More</button>
+              </div>
+          </div>
 
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
+
+    <trinity-rings-spinner v-else :animation-duration="1500" :size="66" color="#ff1d5e" />
+
   </main>
 </template>
 
@@ -81,6 +74,18 @@
     width: 100px;
     height: 100px;
     padding-right: 0%;
+  }
+
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #EF8D9C;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: 0 auto;
+    margin-top: 20%;
   }
 
   h1 {

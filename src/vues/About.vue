@@ -2,9 +2,9 @@
 </script>
 
 <template>
-    <div class="container">
-        <h1>About</h1>
-    </div>
+  <main>
+      <h1>About</h1>
+  </main>
 </template>
 
 <style scoped>
