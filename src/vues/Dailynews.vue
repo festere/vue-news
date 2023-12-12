@@ -1,29 +1,64 @@
-<script>
+<script setup>
+  import { ref, onMounted } from 'vue';
+  import axios from 'axios';
+  
+  const APIEverything = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=';
+  const APIResearchBeg = 'https://newsapi.org/v2/everything?q=';
+  const APIResearchEnd = '&sortBy=popularity&apiKey=';
+  const API_key = 'c2d38b53bd6c452c8b77eb90baadf05e';
+
+  const articlesEverything = ref([]);
+  const articlesResearch = ref([]);
+  const searchQuery = ref('');
+
+  onMounted(async () => {
+    try {
+      const responseEverything = await axios.get(APIEverything + API_key);
+      articlesEverything.value = responseEverything.data.articles;
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  const searchNews = async () => {
+    try {
+      const responseResearch = await axios.get(APIResearchBeg + searchQuery.value + APIResearchEnd + API_key);
+      articlesResearch.value = responseResearch.data.articles;
+      console.log(articlesResearch.value);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const redirectToArticle = (article) => {
+    window.location.href = article.url;
+  };
 </script>
 
 <template>
-  <header>
-    <div>
-      <img src="@/components/icons/logo.svg" alt="Logo">
-    </div>
-    <input type="text" v-model="searchQuery" placeholder="Search news">
-    <button @click="searchNews">Search</button>
+  <main>
+    <h1>Daily news</h1>
 
-    <nav class="navbar">
-      <div class="navbar-brand">
-        <div class="navbar-burger burger" data-target="navMenu">
+    <ul class="cards">
+      <li class="cards_item">
+
+        <div v-for="(article, index) in articlesEverything" :key="index" class="card">
+          <img :src="article.urlToImage ?? 'https://picsum.photos/500/300?random=' + index" alt="Image" class="card_image">
+            <div class="card_content">
+              <h2 class="card_title">{{ article.title }}</h2>
+              <br>
+              <h3 class="card_title">{{ article.source.name }}</h3>
+              <h3 class="card_title">{{ article.author }}</h3>
+
+              <p class="card_text">{{ article.description }}</p>
+              <button class="btn card_btn" @click="redirectToArticle(article)">Read More</button>
+            </div>
         </div>
-      </div>
-      <div id="navMenu" class="navbar-menu">
-        <div class="navbar-start">
-          <router-link to="/" class="navbar-item">Home</router-link>
-          <router-link to="/dailynews" class="navbar-item">Daily news</router-link>
-          <router-link to="/about" class="navbar-item">About</router-link>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <router-view></router-view>
+
+      </li>
+    </ul>
+  </main>
 </template>
 
 <style scoped>
@@ -46,27 +81,6 @@
     width: 100px;
     height: 100px;
     padding-right: 0%;
-  }
-
-  .navbar-menu {
-    background-color: #a0a0a0;
-    color: white;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .navbar-start{
-    background-color: #a0a0a0;
-    color: white;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .navbar-item{
-    background-color: #a0a0a0;
-    color: white;
-    text-align: center;
-    padding: 20px;
   }
 
   h1 {
