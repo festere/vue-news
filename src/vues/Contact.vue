@@ -1,56 +1,32 @@
 <script setup>
     import { Form, Field, ErrorMessage } from 'vee-validate';
+    import { object, string } from 'yup';
 
     const sendform = {
     }
 
-    const ValidateName = (value) => {
-        if (!value) {
-            return 'Name is required.';
-        }
-
-        return true;
-    }
-
-    const ValidateEmail = (value) => {
-        if (!value) {
-            return 'Email is required.';
-        }
-
-        const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-        if (!regex.test(value)) {
-            return 'Invalid email address.';
-        }
-
-        return true;
-    }
-
-    const ValidateMessage = (value) => {
-        if (!value) {
-            return 'Message is required.';
-        }
-
-        return true;
-    }
+    const schema = object({
+        name: string().required(),
+        email: string().required().email(),
+        message: string().required().min(20),
+    })
 </script>
 
 <template>
     <h1>Contact</h1>
-    <Form @submit="sendForm">
+    <Form @submit="sendForm" :validation-schema="schema">
         <div class="form-control">
             <label for="name">Your name</label>
             <Field type="text"
                     id="name"
-                    name="name"
-                    :rules="ValidateName"/>
+                    name="name"/>
             <ErrorMessage class="text-red" name="name"/>
         </div>
         <div class="form-control">
             <label for="email">Your email</label>
             <Field type="email"
                     id="email"
-                    name="email"
-                    :rules="ValidateEmail"/>
+                    name="email"/>
             <ErrorMessage class="text-red" name="email"/>
         </div>
         <div class="form-control">
@@ -58,8 +34,7 @@
             <Field cols="30" rows="10"
                     name="message"
                     id="message"
-                    as="textarea"
-                    :rules="ValidateMessage"/>
+                    as="textarea"/>
             <ErrorMessage class="text-red" name="message"/>
         </div>
 

@@ -16,6 +16,13 @@
       console.error(error);
     }
   });
+
+  // country list
+  let countries = ["ae", "ar", "at", "au", "be", "bg", "br", "ca", "ch", "cn", "co", "cu", "cz", "de", "eg", "fr", "gb", "gr", "hk", "hu",
+                  "id", "ie", "il", "in", "it", "jp", "kr", "lt", "lv", "ma", "mx", "my", "ng", "nl", "no", "nz", "ph", "pl", "pt", "ro",
+                  "rs", "ru", "sa", "se", "sg", "si", "sk", "th", "tr", "tw", "ua", "us", "ve"]
+
+  let categories = ["business", "entertainment", "general", "health", "science", "sports", "technology"]
 </script>
 
 <template>
@@ -26,74 +33,18 @@
       <button class="btn">
           <span>Countries</span><i class="material-icons"><img src="@/components/icons/earth.png" alt="earth logo" width="50" height="50"></i>
           <ul class="dropdown">
-            <li>ae</li>
-            <li>ar</li>
-            <li>at</li>
-            <li>au</li>
-            <li>be</li>
-            <li>bg</li>
-            <li>br</li>
-            <li>ca</li>
-            <li>ch</li>
-            <li>cn</li>
-            <li>co</li>
-            <li>cu</li>
-            <li>cz</li>
-            <li>de</li>
-            <li>eg</li>
-            <li>fr</li>
-            <li>gb</li>
-            <li>gr</li>
-            <li>hk</li>
-            <li>hu</li>
-            <li>id</li>
-            <li>ie</li>
-            <li>il</li>
-            <li>in</li>
-            <li>it</li>
-            <li>jp</li>
-            <li>kr</li>
-            <li>lt</li>
-            <li>lv</li>
-            <li>ma</li>
-            <li>mx</li>
-            <li>my</li>
-            <li>ng</li>
-            <li>nl</li>
-            <li>no</li>
-            <li>nz</li>
-            <li>ph</li>
-            <li>pl</li>
-            <li>pt</li>
-            <li>ro</li>
-            <li>rs</li>
-            <li>ru</li>
-            <li>sa</li>
-            <li>se</li>
-            <li>sg</li>
-            <li>si</li>
-            <li>sk</li>
-            <li>th</li>
-            <li>tr</li>
-            <li>tw</li>
-            <li>ua</li>
-            <li>us</li>
-            <li>ve</li>
+            <li v-for="country in countries" :key="country">
+              <a href="#" @click="searchQuery = country">{{ country }}</a>
+            </li>
           </ul>
       </button>
-    </div>
 
-    <div class="container">
       <button class="btn">
-          <span>Countries</span><i class="material-icons"><img src="@/components/icons/earth.png" alt="earth logo" width="50" height="50"></i>
+          <span>Categories</span><i class="material-icons"><img src="@/components/icons/earth.png" alt="earth logo" width="50" height="50"></i>
           <ul class="dropdown">
-            <li>business</li>
-            <li>entertainment</li>
-            <li>general</li>
-            <li>health</li>
-            <li>science</li>
-            <li>sports</li>
-            <li>technology</li>
+            <li v-for="category in categories" :key="category">
+              <a href="#" @click="searchQuery = category">{{ category }}</a>
+            </li>
           </ul>
       </button>
     </div>
